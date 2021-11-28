@@ -1,6 +1,7 @@
 {
     "require": {
-        "kreait/firebase-php": "^5.25"
+        "kreait/firebase-php": "^5.25",
+      "ext-pdo": "*"
     },
     "autoload" : {
         "psr-4": {

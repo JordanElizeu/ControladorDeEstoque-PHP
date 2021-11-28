@@ -1,6 +1,6 @@
 <?php
 
-namespace DesafioBackend\Controller;
+namespace DesafioBackend\Domain\Controller;
 
 class AddCategory implements InterfaceControllerRequisition
 {
@@ -10,6 +10,6 @@ class AddCategory implements InterfaceControllerRequisition
 
     public function processRequisition()
     {
-        require __DIR__ . '/../../view/addCategory.php';
+        require __DIR__ . '/../../view/html/addCategory.html';
     }
 }

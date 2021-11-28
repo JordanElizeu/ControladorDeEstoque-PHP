@@ -25,7 +25,7 @@ switch ($_SERVER['PATH_INFO']){
         $controller = new Dashboard();
         $controller->processRequisition();
         break;
-    case '/product':
+    case '/products':
         $controller = new ListProduct();
         $controller->processRequisition();
         break;

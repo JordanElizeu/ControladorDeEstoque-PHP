@@ -1,6 +1,6 @@
 <?php
 
-namespace DesafioBackend\Controller;
+namespace DesafioBackend\Domain\Controller;
 
 class Dashboard implements InterfaceControllerRequisition
 {
@@ -10,6 +10,6 @@ class Dashboard implements InterfaceControllerRequisition
 
     public function processRequisition()
     {
-        // TODO: Implement processRequisition() method.
+        require __DIR__ . '/../../view/html/dashboard.html';
     }
 }

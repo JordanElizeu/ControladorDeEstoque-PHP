@@ -1,6 +1,6 @@
 <?php
 
-namespace DesafioBackend\Controller;
+namespace DesafioBackend\Domain\Controller;
 
 Interface InterfaceControllerRequisition
 {
