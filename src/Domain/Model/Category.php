@@ -23,19 +23,8 @@ class Category
         $this->name = $name;
     }
 
-    public function defineId(int $id)
-    {
-        if (!is_null($this->id)){
-            throw new \DomainException('Você só pode definir o ID uma vez');
-        }
-
-        $this->id = $id;
-    }
-
     public function getId(): ?int
     {
         return $this->id;
     }
-
-
 }

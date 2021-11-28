@@ -4,29 +4,28 @@ namespace DesafioBackend\Domain\Model;
 
 class Product
 {
-    private $name;
-    private $id;
-    private $price;
-    private $description;
-    private $quantity;
-    private $category;
+    private string $name;
+    private ?int $id;
+    private float $price;
+    private string $description;
+    private int $quantity;
+    private array $category;
 
-    public function __construct($name,$id,$price,$description,$quantity,$category)
+    public function __construct(string $name,?int $id,float $price,string $description,int $quantity)
     {
         $this->name = $name;
         $this->id = $id;
         $this->price = $price;
         $this->description = $description;
         $this->quantity = $quantity;
-        $this->category = $category;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function getId()
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -36,7 +35,7 @@ class Product
         $this->name = $name;
     }
 
-    public function getPrice()
+    public function getPrice(): string
     {
         return $this->price;
     }
@@ -46,7 +45,7 @@ class Product
         $this->price = $price;
     }
 
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
@@ -56,7 +55,7 @@ class Product
         $this->description = $description;
     }
 
-    public function getQuantity()
+    public function getQuantity(): int
     {
         return $this->quantity;
     }
@@ -66,15 +65,23 @@ class Product
         $this->quantity = $quantity;
     }
 
-    public function getCategory()
+    public function addCategory(String $name,int $id): void
+    {
+        $this->category[] = new Category($name,$id);
+    }
+
+    public function getCategory(): array
     {
         return $this->category;
     }
 
-    public function setCategory($category)
+    public function defineId(int $id)
     {
-        $this->category = $category;
-    }
+        if (!is_null($this->id)){
+            throw new \DomainException('Você só pode definir o ID uma vez');
+        }
 
+        $this->id = $id;
+    }
 
 }

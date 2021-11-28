@@ -3,12 +3,12 @@
 namespace DesafioBackend\Infrastructure\Repository;
 
 use DesafioBackend\Domain\Model\Category;
-use DesafioBackend\Domain\Repository\CategoryRepository;
-use DesafioBackend\Infrastructure\Persistence\ConnectionCreator;
+use DesafioBackend\Domain\Model\Product;
+use DesafioBackend\Domain\Repository\ProductRepository;
 use PDO;
 use PDOStatement;
 
-class PdoCategoryRepository implements CategoryRepository
+class PdoCategoryRepository implements ProductRepository
 {
 
     private PDO $connection;
@@ -18,7 +18,7 @@ class PdoCategoryRepository implements CategoryRepository
         $this->connection = $connection;
     }
 
-    public function findAllCategories(): array
+    public function AllProducts(): array
     {
         $sqlQuery = 'SELECT * FROM category';
         $statement = $this->connection->query($sqlQuery);
@@ -26,11 +26,11 @@ class PdoCategoryRepository implements CategoryRepository
         return $this->hydrateCategoryList($statement);
     }
 
-    public function findByCategoryName(Category $category): array
+    public function findByName(Product $product): array
     {
         $sqlQuery = 'SELECT * FROM category WHERE name = ?;';
         $statement = $this->connection->prepare($sqlQuery);
-        $statement->bindValue(1,$category->getName());
+        $statement->bindValue(1,$product->getName());
         $statement->execute();
         return $this->hydrateCategoryList($statement);
     }
@@ -42,49 +42,49 @@ class PdoCategoryRepository implements CategoryRepository
 
         foreach ($categoryDataList as $categoryData){
             $categoryList[] = new Category(
-              $categoryData['id'],
-              $categoryData['name']
+              $categoryData['name'],
+              $categoryData['id']
             );
         }
 
         return $categoryList;
     }
 
-    public function save(Category $category): bool
+    public function save(Product $product): bool
     {
-        if ($category->getId() === null) {
-            return $this->insert($category);
+        if ($product->getId() === null) {
+            return $this->insert($product);
         }
-        return $this->update($category);
+        return $this->update($product);
     }
 
-    public function remove(Category $category): bool
+    public function remove(Product $product): bool
     {
         $statement = $this->connection->prepare('DELETE FROM category WHERE id = ?;');
-        $statement->bindValue(1,$category->getId(),PDO::PARAM_INT);
+        $statement->bindValue(1,$product->getId(),PDO::PARAM_INT);
         return $statement->execute();
     }
 
-    private function update(Category $category): bool
+    private function update(Product $product): bool
     {
         $updateQuery = 'UPDATE category SET name = :name WHERE id = :id;';
         $statement = $this->connection->prepare($updateQuery);
-        $statement->bindValue(':name', $category->getName());
-        $statement->bindValue(':id',$category->getId(),PDO::PARAM_INT);
+        $statement->bindValue(':name', $product->getName());
+        $statement->bindValue(':id',$product->getId(),PDO::PARAM_INT);
         return $statement->execute();
     }
 
-    private function insert(Category $category): bool
+    private function insert(Product $product): bool
     {
-        $insertQuery = "INSERT INTO categor (name) VALUES (:name);";
+        $insertQuery = "INSERT INTO category (name) VALUES (:name);";
         $statement = $this->connection->prepare($insertQuery);
 
         $success = $statement->execute([
-            ':name' => $category->getName()
+            ':name' => $product->getName(),
         ]);
 
         if($success) {
-            $category->defineId($this->connection->lastInsertId());
+            $product->defineId($this->connection->lastInsertId());
         }
 
         return $success;
