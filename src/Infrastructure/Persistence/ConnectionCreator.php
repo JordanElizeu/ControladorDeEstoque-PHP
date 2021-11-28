@@ -8,7 +8,10 @@ class ConnectionCreator
 {
     public static function createConnection() : PDO
     {
-        $caminhoBanco = __DIR__ . '/../../../banco.sqlite';
-        return new PDO('sqlite:' . $caminhoBanco);
+        $databasePath = __DIR__ . '/../../../banco.sqlite';
+
+        $connection = new PDO('sqlite:' . $databasePath);
+        $connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE,PDO::FETCH_ASSOC);
+        return $connection;
     }
 }
