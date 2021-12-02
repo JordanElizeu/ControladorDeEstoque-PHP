@@ -2,21 +2,34 @@
 
 namespace DesafioBackend\Domain\Model;
 
+/** @version 1.0 */
 class Product
 {
-    /** @var string */
+    /** @var string
+     * @access private
+     */
     private string $name;
     /** @var int|null */
     private ?int $id;
-    /** @var string */
+    /** @var string
+     * @access private
+     */
     private string $price;
-    /** @var string */
+    /** @var string
+     * @access private
+     */
     private string $description;
-    /** @var string */
+    /** @var string
+     * @access private
+     */
     private string $quantity;
-    /** @var string */
+    /** @var string
+     * @access private
+     */
     private string $sku;
-    /** @var Category[] */
+    /** @var Category[]
+     * @access private
+     */
     private array $category;
 
     public function __construct(string $name,?int $id,string $price,string $description,string $quantity, string $sku)

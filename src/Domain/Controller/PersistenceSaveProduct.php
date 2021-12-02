@@ -7,8 +7,12 @@ use DesafioBackend\Infrastructure\Persistence\ConnectionCreator;
 use DesafioBackend\Infrastructure\Repository\PdoProductRepository;
 use PDO;
 
+/** @version 1.2 */
 class PersistenceSaveProduct implements InterfaceControllerRequisition
 {
+    /** @var PDO
+     * Connection recebe a conexão do banco da classe ConnectionCreator
+     */
     private PDO $connection;
 
     public function __construct()
@@ -39,6 +43,8 @@ class PersistenceSaveProduct implements InterfaceControllerRequisition
             //change route to dashboard
             header('Location: /dashboard',true,302);
         }else{
+            //caso algum valor for nulo redireciona para o
+            //própria pagina de adicionar produto
             header('Location: /addProduct',true,302);
         }
     }

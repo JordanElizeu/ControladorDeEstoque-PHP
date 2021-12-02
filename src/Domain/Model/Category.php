@@ -2,6 +2,7 @@
 
 namespace DesafioBackend\Domain\Model;
 
+/** @version 1.0 */
 class Category
 {
     /** @var string  */
@@ -23,6 +24,7 @@ class Category
     /**
      * @param $name
      * @return void
+     * metodo usado para mudar nome da categoria
      */
     public function changeName($name):void
     {
@@ -31,6 +33,7 @@ class Category
 
     /**
      * @return int|null
+     * pegar id
      */
     public function getId(): ?int
     {
@@ -40,6 +43,7 @@ class Category
     /**
      * @param int $id
      * @return void
+     * metodo usado para definir um id (caso nulo)
      */
     public function defineId(int $id):void
     {

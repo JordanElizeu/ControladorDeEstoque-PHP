@@ -7,6 +7,7 @@ use DesafioBackend\Domain\Repository\ProductRepository;
 use PDO;
 use PDOStatement;
 
+/** @version 1.0 */
 class PdoProductRepository implements ProductRepository
 {
     /** @var PDO
@@ -19,7 +20,9 @@ class PdoProductRepository implements ProductRepository
         $this->connection = $connection;
     }
 
-    /** @return array */
+    /** @return array
+     * pegar todos os valores do banco e retorna um array
+     */
     public function AllProducts(): array
     {
         //get all values of products in database and return an array
@@ -32,6 +35,7 @@ class PdoProductRepository implements ProductRepository
     /**
      * @param Product $product
      * @return array
+     * faz busca por produtos com nome especifico
      */
     public function findByName(Product $product): array
     {
@@ -46,6 +50,7 @@ class PdoProductRepository implements ProductRepository
     /**
      * @param PDOStatement $statement
      * @return array
+     * trata os dados do array contendo produtos
      */
     private function hydrateProductList(PDOStatement $statement): array
     {
@@ -71,6 +76,7 @@ class PdoProductRepository implements ProductRepository
     /**
      * @param Product $product
      * @return bool
+     * metodo de salvar
      */
     public function save(Product $product): bool
     {
@@ -85,6 +91,7 @@ class PdoProductRepository implements ProductRepository
     /**
      * @param Product $product
      * @return bool
+     * metodo de remover
      */
     public function remove(Product $product): bool
     {
@@ -97,6 +104,7 @@ class PdoProductRepository implements ProductRepository
     /**
      * @param Product $category
      * @return bool
+     * metodo de atualizar
      */
     private function update(Product $category): bool
     {
@@ -114,6 +122,7 @@ class PdoProductRepository implements ProductRepository
     /**
      * @param Product $product
      * @return bool
+     * metodo de inserir
      */
     private function insert(Product $product): bool
     {
@@ -140,6 +149,10 @@ class PdoProductRepository implements ProductRepository
     /**
      * @param Product $product
      * @return void
+     * esse metodo seria para relacionar a tabela categoria
+     * com a tabela de produtos, porém tive problemas
+     * para desenvolver e não foi possível implementar
+     * todas as funcionalidades a tempo.
      */
     private function fillCategoryOf(Product $product): void
     {

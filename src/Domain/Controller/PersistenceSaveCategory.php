@@ -7,8 +7,12 @@ use DesafioBackend\Infrastructure\Persistence\ConnectionCreator;
 use DesafioBackend\Infrastructure\Repository\PdoCategoryRepository;
 use PDO;
 
+/** @version 1.2 */
 class PersistenceSaveCategory implements InterfaceControllerRequisition
 {
+    /** @var PDO
+     * Connection recebe a conexão do banco da classe ConnectionCreator
+     */
     private PDO $connection;
 
     public function __construct()
@@ -32,6 +36,8 @@ class PersistenceSaveCategory implements InterfaceControllerRequisition
 
             header('Location: /categories',true,302);
         }else{
+            //caso algum valor for nulo redireciona para o
+            //própria pagina de adicionar categoria
             header('Location: /addCategory',true,302);
         }
     }

@@ -2,6 +2,7 @@
 
 namespace DesafioBackend\Domain\Controller;
 
+/** @version 0.1 */
 class AddCategory implements InterfaceControllerRequisition
 {
 

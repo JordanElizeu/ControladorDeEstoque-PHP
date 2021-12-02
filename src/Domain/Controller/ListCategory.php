@@ -5,6 +5,7 @@ namespace DesafioBackend\Domain\Controller;
 use DesafioBackend\Infrastructure\Persistence\ConnectionCreator;
 use DesafioBackend\Infrastructure\Repository\PdoCategoryRepository;
 
+/** @version 1.0 */
 class ListCategory implements InterfaceControllerRequisition
 {
     public function __construct()

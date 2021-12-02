@@ -8,7 +8,9 @@ use DesafioBackend\Domain\Controller\{AddCategory,
     PersistenceSaveCategory,
     PersistenceSaveProduct};
 
-/** @return string */
+/** @return string
+ * retorna um array contendo valores que possuem determinadas rotas.
+ */
 //return the value of route
 return [
     '/addProduct' => AddProduct::class,

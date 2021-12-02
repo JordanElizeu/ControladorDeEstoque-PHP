@@ -7,6 +7,7 @@ use DesafioBackend\Domain\Repository\CategoryRepository;
 use PDO;
 use PDOStatement;
 
+/** @version 1.0 */
 class PdoCategoryRepository implements CategoryRepository
 {
     /** @var PDO
@@ -19,7 +20,9 @@ class PdoCategoryRepository implements CategoryRepository
         $this->connection = $connection;
     }
 
-    /** @return array */
+    /** @return array
+     * pegar todos os valores do banco e retorna um array
+     */
     public function AllCategories(): array
     {
         //get categories list of database
@@ -32,6 +35,7 @@ class PdoCategoryRepository implements CategoryRepository
     /**
      * @param Category $category
      * @return array
+     * faz uma busca por nome da categoria
      */
     public function findByName(Category $category): array
     {
@@ -46,6 +50,7 @@ class PdoCategoryRepository implements CategoryRepository
     /**
      * @param PDOStatement $statement
      * @return array
+     * trata os dados do array de categoria
      */
     private function hydrateCategoryList(PDOStatement $statement): array
     {
@@ -66,6 +71,10 @@ class PdoCategoryRepository implements CategoryRepository
     /**
      * @param Category $category
      * @return bool
+     * metodo de salvar dados que possue um condicional
+     * para verificar se é necessário adicionar nova
+     * categoria ou apenas atualizar categoria
+     * existente.
      */
     public function save(Category $category): bool
     {
@@ -80,6 +89,7 @@ class PdoCategoryRepository implements CategoryRepository
     /**
      * @param Category $category
      * @return bool
+     * metodo de remover categoria
      */
     public function remove(Category $category): bool
     {
@@ -92,6 +102,7 @@ class PdoCategoryRepository implements CategoryRepository
     /**
      * @param Category $category
      * @return bool
+     * metodo de atualizar categoria
      */
     private function update(Category $category): bool
     {
@@ -106,6 +117,7 @@ class PdoCategoryRepository implements CategoryRepository
     /**
      * @param Category $category
      * @return bool
+     * metodo de inserir categoria
      */
     private function insert(Category $category): bool
     {

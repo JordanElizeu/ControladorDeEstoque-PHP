@@ -6,6 +6,7 @@ use DesafioBackend\Infrastructure\Persistence\ConnectionCreator;
 use DesafioBackend\Infrastructure\Repository\PdoCategoryRepository;
 use PDO;
 
+/** @version 0.1 */
 class AddProduct implements InterfaceControllerRequisition
 {
     private PDO $connection;
