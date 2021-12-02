@@ -9,7 +9,9 @@ use PDOStatement;
 
 class PdoProductRepository implements ProductRepository
 {
-
+    /** @var PDO
+     *  @access private
+     */
     private PDO $connection;
 
     public function __construct(PDO $connection)
@@ -17,16 +19,23 @@ class PdoProductRepository implements ProductRepository
         $this->connection = $connection;
     }
 
+    /** @return array */
     public function AllProducts(): array
     {
+        //get all values of products in database and return an array
         $sqlQuery = 'SELECT * FROM product';
         $statement = $this->connection->query($sqlQuery);
 
         return $this->hydrateProductList($statement);
     }
 
+    /**
+     * @param Product $product
+     * @return array
+     */
     public function findByName(Product $product): array
     {
+        //search of name
         $sqlQuery = 'SELECT * FROM product WHERE name = ?;';
         $statement = $this->connection->prepare($sqlQuery);
         $statement->bindValue(1, $product->getName());
@@ -34,8 +43,13 @@ class PdoProductRepository implements ProductRepository
         return $this->hydrateProductList($statement);
     }
 
+    /**
+     * @param PDOStatement $statement
+     * @return array
+     */
     private function hydrateProductList(PDOStatement $statement): array
     {
+        //hydrate list of product and return self
         $productDataList = $statement->fetchAll();
         $productList = [];
 
@@ -46,6 +60,7 @@ class PdoProductRepository implements ProductRepository
                 $categoryData['price'],
                 $categoryData['description'],
                 $categoryData['quantity'],
+                $categoryData['sku'],
             );
             $this->fillCategoryOf($product);
         }
@@ -53,23 +68,39 @@ class PdoProductRepository implements ProductRepository
         return $productList;
     }
 
+    /**
+     * @param Product $product
+     * @return bool
+     */
     public function save(Product $product): bool
     {
         if ($product->getId() === null) {
+            //insert a new product if id is null
             return $this->insert($product);
         }
+        //update a product existent if id is not null
         return $this->update($product);
     }
 
+    /**
+     * @param Product $product
+     * @return bool
+     */
     public function remove(Product $product): bool
     {
-        $statement = $this->connection->prepare('DELETE FROM product WHERE id = ?;');
+        //remove a product
+        $statement = $this->connection->prepare('DELETE * FROM product WHERE id = ?;');
         $statement->bindValue(1, $product->getId(), PDO::PARAM_INT);
         return $statement->execute();
     }
 
+    /**
+     * @param Product $category
+     * @return bool
+     */
     private function update(Product $category): bool
     {
+        //update a product
         $updateQuery = 'UPDATE product SET name = :name, price = :price, description = :description, quantity = :quantity WHERE id = :id;';
         $statement = $this->connection->prepare($updateQuery);
         $statement->bindValue(':name', $category->getName());
@@ -80,9 +111,15 @@ class PdoProductRepository implements ProductRepository
         return $statement->execute();
     }
 
+    /**
+     * @param Product $product
+     * @return bool
+     */
     private function insert(Product $product): bool
     {
-        $insertQuery = "INSERT INTO product (name,price,description,quantity) VALUES (:name,:price,:description,:quantity);";
+        //insert a new product
+        $insertQuery = "INSERT INTO product (name,price,description,quantity,sku) VALUES (:name,:price,:description,:quantity,:sku);";
+
         $statement = $this->connection->prepare($insertQuery);
 
         $success = $statement->execute([
@@ -90,6 +127,7 @@ class PdoProductRepository implements ProductRepository
             ':price' => $product->getPrice(),
             ':description' => $product->getDescription(),
             ':quantity' => $product->getQuantity(),
+            ':sku' => $product->getSku(),
         ]);
 
         if ($success) {
@@ -99,17 +137,26 @@ class PdoProductRepository implements ProductRepository
         return $success;
     }
 
+    /**
+     * @param Product $product
+     * @return void
+     */
     private function fillCategoryOf(Product $product): void
     {
-        $sqlQuery = 'SELECT id, name FROM category WHERE product_id = ?';
+        //here I can't relationship the table category with
+        //product table utilizing a new table named "product_category"
+        //sorry I tried a lot, but I didn't make it in time.
+        $sqlQuery = 'SELECT * FROM product_category WHERE category_id = ?;';
         $statement = $this->connection->prepare($sqlQuery);
-        $statement->bindValue(1,$product->getId(),PDO::PARAM_INT);
+        $statement->bindValue(1,$product->getId());
         $statement->execute();
 
         $categoryDataList = $statement->fetchAll();
         //use aggregate.
         foreach ($categoryDataList as $categoryData){
-            $product->addCategory($categoryData['name'],$categoryData['id']);
+            $product->addCategory(
+                $categoryData['name'],
+                $categoryData['id']);
         }
     }
 }

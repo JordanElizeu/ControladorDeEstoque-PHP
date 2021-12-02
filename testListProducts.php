@@ -1,6 +1,7 @@
 <?php
 
 use DesafioBackend\Infrastructure\Persistence\ConnectionCreator;
+use DesafioBackend\Infrastructure\Repository\PdoCategoryRepository;
 use DesafioBackend\Infrastructure\Repository\PdoProductRepository;
 
 require_once 'vendor/autoload.php';

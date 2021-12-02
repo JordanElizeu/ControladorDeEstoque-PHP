@@ -6,6 +6,9 @@ body {
       height: auto;
       width: auto;
     }
+    .floatLeft{
+        float:left
+    }
 
     .link-logo img {
       width: auto;
